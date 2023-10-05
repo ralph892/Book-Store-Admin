@@ -1,0 +1,6 @@
+@layer components{
+    .col-mp{
+        @apply px-[12px] py-[8px];
+    }
+
+}

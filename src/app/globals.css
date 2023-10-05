@@ -1,27 +1,171 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import "../styles/custom.css";
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --font-primary-light: NunitoSans-light;
+  --font-primary-regular: NunitoSans-regular;
+  --bg-cyan-light: #ecf0f4;
+  --bg-gray: rgb(179, 179, 179);
+  --bg-gray-bold: rgba(0, 0, 0, 0.07);
+  --bg-primary: rgb(253, 200, 103);
+  --bg-primary-bold: rgb(255, 179, 37);
+  --bg-danger: rgb(255, 43, 43);
+  --txt-gray: #54667a;
+  --txt-white: white;
+  --border-radius-card: 8px;
+  --border-radius-btn: 12px;
+  --border-radius-input: 16px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+*{
+  box-sizing: border-box;
+}
+
+html{
+  @apply lg:text-[62.5%] md:text-[62.5%] text-[50%];
+}
+
+/* fonts */
+@font-face {
+  font-family: NunitoSans-regular;
+  src: url('/fonts/NunitoSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: NunitoSans-light;
+  src: url('/fonts/NunitoSans-Light.ttf');
+}
+
+.wrapper{
+  @apply ml-[240px] p-[25px];
+  min-height: calc(100vh);
+  background-color: var(--bg-cyan-light);
+}
+
+.sidebar{
+  @apply fixed lg:w-[240px] p-[16px] lg:min-h-[100vh];
+  font-family: var(--font-primary-light);
+  font-size: 1.4rem;
+  color: var(--txt-gray);
+  box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+  border-radius: var(--border-radius-card);
+
+  .sidebar-item{
+    cursor: pointer;
+  }
+
+  .sidebar-item.active{
+    @apply relative;
+    
+    &::before{
+      @apply absolute left-0 w-[2px] h-full;
+      content: "";
+      background-color: var(--bg-primary-bold);
+    }
+  }
+
+  .sidebar-item:hover{
+    background-color: var(--bg-gray-bold);
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.card{
+  @apply p-[25px] bg-[white] w-full flex;
+  border-radius: var(--border-radius-card);
+}
+
+.card-table{
+  @apply flex-col;
+}
+
+.card-content{
+  @apply p-[16px];
+  flex-grow: 1;
+
+  .card-content_header{
+    font-family: var(--font-primary-regular);
+    font-size: 2.6rem;
+    color: var(--txt-gray);
+    
+  }
+
+  .card-content_body{
+    @apply flex flex-col gap-[8px] my-[8px];
+
+    p{
+      font-family:var(--font-primary-light) ;
+      font-size: 1.6rem;
+      flex-grow: 1;
+    }
+  }
+}
+
+.card-form{
+  @apply w-full p-[8px];
+  border: 1px solid var(--bg-gray);
+  border-radius: var(--border-radius-card);
+  box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+
+  .card-form_section{
+    @apply flex flex-col;
+    user-select: none;
+  }
+
+  .card-form_label{
+    @apply mb-[8px];
+    font-family: var(--font-primary-regular);
+    color: var(--txt-gray);
+    font-size: 1.4rem;
+    user-select: none;
+  }
+  .card-form_input{
+    @apply px-[12px] py-[6px];
+    font-family: var(--font-primary);
+    opacity: 0.5;
+    border: 2px solid var(--bg-primary-bold);
+    outline: none;
+    font-size: 1.2rem;
+    border-radius: var(--border-radius-input);
+
+    &:focus{
+      opacity: 1;
+    }
+  }
+
+  .card-form_error{
+    @apply h-[18px] w-full px-[8px];
+    color: var(--bg-danger);
+    font-size: 1.2rem;
+    font-family: var(--font-primary-regular);
+  }
+}
+
+.btn-primary{
+  background-color: var(--bg-primary-bold);
+  border-radius: var(--border-radius-btn);
+  color: var(--txt-white);
+
+  &:hover{
+    background-color: var(--bg-primary);
+    color: var(--txt-gray);
+  }
+}
+
+.btn-sz-medium{
+  @apply py-[6px] px-[12px];
+  font-size: 1.4rem; 
+}
+
+th.gridjs-th .gridjs-th-content{
+  overflow: visible !important;
+}
+
+button.gridjs-sort{
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
 }
