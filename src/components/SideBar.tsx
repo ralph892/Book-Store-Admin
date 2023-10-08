@@ -4,6 +4,7 @@ import {
   RiAccountBoxFill,
   RiBook2Fill,
   RiListIndefinite,
+  RiProfileFill,
 } from "react-icons/ri";
 import Link from "next/link";
 
@@ -24,7 +25,7 @@ const SideBar = (props: Props) => {
         </div>
         <li className="list-none flex flex-col ">
           <ul className="sidebar-item active flex items-center gap-[8px] p-[15px]">
-            <RiListIndefinite className="w-[24px]" />
+            <RiProfileFill className="w-[24px]" />
             Home
           </ul>
           <Link href={"/users"}>
@@ -37,6 +38,12 @@ const SideBar = (props: Props) => {
             <ul className="sidebar-item flex items-center gap-[8px] p-[15px]">
               <RiBook2Fill className="w-[24px]" />
               Books
+            </ul>
+          </Link>
+          <Link href={"/categories"}>
+            <ul className="sidebar-item flex items-center gap-[8px] p-[15px]">
+              <RiListIndefinite className="w-[24px]" />
+              Categories
             </ul>
           </Link>
         </li>

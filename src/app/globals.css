@@ -10,13 +10,16 @@
   --bg-cyan-light: #ecf0f4;
   --bg-gray: rgb(179, 179, 179);
   --bg-gray-bold: rgba(0, 0, 0, 0.07);
-  --bg-primary: rgb(253, 200, 103);
-  --bg-primary-bold: rgb(255, 179, 37);
+  --bg-primary: #f4f3ec;
+  --bg-secondary: white;
+  --cl-primary: #e4573d;
+  --cl-secondary: #333;
   --bg-danger: rgb(255, 43, 43);
+  --txt-primary: white;
+  --txt-secondary: #333333;
   --txt-gray: #54667a;
-  --txt-white: white;
   --border-radius-card: 8px;
-  --border-radius-btn: 12px;
+  --border-radius-btn: 4px;
   --border-radius-input: 16px;
 }
 
@@ -42,7 +45,7 @@ html{
 .wrapper{
   @apply ml-[240px] p-[25px];
   min-height: calc(100vh);
-  background-color: var(--bg-cyan-light);
+  background-color: var(--bg-primary);
 }
 
 .sidebar{
@@ -63,7 +66,7 @@ html{
     &::before{
       @apply absolute left-0 w-[2px] h-full;
       content: "";
-      background-color: var(--bg-primary-bold);
+      background-color: var(--cl-primary);
     }
   }
 
@@ -87,8 +90,9 @@ html{
 
   .card-content_header{
     font-family: var(--font-primary-regular);
+    text-transform: capitalize;
     font-size: 2.6rem;
-    color: var(--txt-gray);
+    color: var(--txt-secondary);
     
   }
 
@@ -97,6 +101,7 @@ html{
 
     p{
       font-family:var(--font-primary-light) ;
+      color: var(--txt-secondary);
       font-size: 1.6rem;
       flex-grow: 1;
     }
@@ -117,15 +122,15 @@ html{
   .card-form_label{
     @apply mb-[8px];
     font-family: var(--font-primary-regular);
-    color: var(--txt-gray);
+    color: var(--txt-secondary);
     font-size: 1.4rem;
     user-select: none;
   }
   .card-form_input{
-    @apply px-[12px] py-[6px];
+    @apply px-[12px] py-[6px] w-full;
     font-family: var(--font-primary);
     opacity: 0.5;
-    border: 2px solid var(--bg-primary-bold);
+    border: 2px solid var(--cl-primary);
     outline: none;
     font-size: 1.2rem;
     border-radius: var(--border-radius-input);
@@ -144,13 +149,13 @@ html{
 }
 
 .btn-primary{
-  background-color: var(--bg-primary-bold);
+  background-color: var(--cl-primary);
   border-radius: var(--border-radius-btn);
-  color: var(--txt-white);
+  color: var(--txt-primary);
+  transition: all 0.25s ease-in-out;
 
   &:hover{
-    background-color: var(--bg-primary);
-    color: var(--txt-gray);
+    background-color: var(--cl-secondary);
   }
 }
 

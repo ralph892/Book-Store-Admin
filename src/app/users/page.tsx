@@ -33,7 +33,7 @@ const page = (props: Props) => {
       },
       th: {
         "white-space": "nowrap",
-        "background-color": "rgb(255, 179, 37)",
+        "background-color": "var(--cl-primary)",
         color: "white",
       },
     },
@@ -118,8 +118,8 @@ const page = (props: Props) => {
     validateOnChange: false,
     onSubmit: async (values) => {
       const response = await handleCreateUser(values as IUser);
-      if (response.error) {
-        toast.error(response.error.message[0], {
+      if (response.errors) {
+        toast.error(response.errors.message[0], {
           action: {
             label: "Cancel",
             onClick: () => {},

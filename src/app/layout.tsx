@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <SideBar />
-        <Toaster />
+        <Toaster richColors={true} visibleToasts={9} />
         {children}
       </body>
     </html>

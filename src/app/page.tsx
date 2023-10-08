@@ -1,3 +1,7 @@
+import DefaultLayout from "@/layout/DefaultLayout";
+
 export default function Home() {
-  return <main></main>;
+  return <DefaultLayout>
+    <div></div>
+  </DefaultLayout>;
 }
