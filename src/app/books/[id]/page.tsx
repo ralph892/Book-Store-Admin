@@ -24,8 +24,8 @@ const page = (props: Props) => {
   const [book, setBook] = React.useState<IBook>();
   const [categories, setCategories] = React.useState<
     {
-      id: string;
-      name: string;
+      category_id: string;
+      category_name: string;
     }[]
   >();
   const [isEdit, setIsEdit] = React.useState(false);
@@ -49,7 +49,7 @@ const page = (props: Props) => {
   const SignupSchema = Yup.object().shape({
     title: Yup.string()
       .min(2, "To Short")
-      .max(10, "To Long")
+      .max(100, "To Long")
       .required("Required"),
     price: Yup.number()
       .required("Required")
@@ -82,7 +82,9 @@ const page = (props: Props) => {
       description: book ? book.description : "",
       category:
         book && categories
-          ? categories.find((category) => category.name === book.category)?.id
+          ? categories.find(
+              (category) => category.category_name === book.category
+            )?.category_id
           : "",
     },
     enableReinitialize: true,
@@ -100,16 +102,18 @@ const page = (props: Props) => {
         description: values.description,
         category: values.category || "",
       });
-      if (response.errors) {
-        toast.error(response.errors.message, {
-          action: {
-            label: "Cancel",
-            onClick: () => {},
-          },
-          position: "top-right",
-          duration: 2000,
-        });
-      } else window.location.reload();
+      if (response !== undefined) {
+        if (response.errors) {
+          toast.error(response.errors.message, {
+            action: {
+              label: "Cancel",
+              onClick: () => {},
+            },
+            position: "top-right",
+            duration: 2000,
+          });
+        } else window.location.reload();
+      }
     },
   });
 
@@ -288,8 +292,8 @@ const page = (props: Props) => {
                     {categories &&
                       categories.map((category, index) => {
                         return (
-                          <option key={index} value={category.id}>
-                            {category.name}
+                          <option key={index} value={category.category_id}>
+                            {category.category_name}
                           </option>
                         );
                       })}

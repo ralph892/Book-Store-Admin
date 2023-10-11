@@ -78,16 +78,18 @@ const page = (props: Props) => {
         category_id: `CT${Date.now()}`,
         category_name: values.name,
       });
-      if (response.errors) {
-        toast.error(response.errors.message, {
-          action: {
-            label: "Cancel",
-            onClick: () => {},
-          },
-          position: "top-right",
-          duration: 2000,
-        });
-      } else window.location.reload();
+      if (response !== undefined) {
+        if (response.errors) {
+          toast.error(response.errors.message, {
+            action: {
+              label: "Cancel",
+              onClick: () => {},
+            },
+            position: "top-right",
+            duration: 2000,
+          });
+        } else window.location.reload();
+      }
     },
   });
 

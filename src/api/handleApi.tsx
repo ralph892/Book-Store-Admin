@@ -5,6 +5,16 @@ const instance = axios.create({
   baseURL: "http://localhost:8080",
 });
 
+// files
+export const handleUploadFile = async (path: string, data: FormData) => {
+  try {
+    const response = await instance.post(`/${path}/upload`, data);
+    return response.data;
+  } catch (error: any) {
+    if (error.response) return { errors: error.response.data };
+  }
+};
+
 // users
 export const handleCreateUser = async (data: IUser) => {
   try {
@@ -12,7 +22,7 @@ export const handleCreateUser = async (data: IUser) => {
     const response = await instance.post(`/users`, formatData);
     return response.data;
   } catch (error: any) {
-    return { errors: error.response.data };
+    if (error.response) return { errors: error.response.data };
   }
 };
 
@@ -43,7 +53,7 @@ export const handleCreateCategory = async (data: {
     const response = await instance.post("/categories", data);
     return response.data;
   } catch (error: any) {
-    return { errors: error.response.data };
+    if (error.response) return { errors: error.response.data };
   }
 };
 
@@ -52,7 +62,7 @@ export const handleGetAllCategories = async () => {
     const response = await instance.get("/categories");
     return response.data;
   } catch (error: any) {
-    return { errors: error.response.data };
+    if (error.response) return { errors: error.response.data };
   }
 };
 
@@ -62,7 +72,7 @@ export const handleCreateBook = async (data: IBook) => {
     const response = await instance.post("/books", data);
     return response.data;
   } catch (error: any) {
-    return { errors: error.response.data };
+    if (error.response) return { errors: error.response.data };
   }
 };
 
@@ -89,6 +99,6 @@ export const handleUpdateBook = async (data: IBook) => {
     const response = await instance.patch(`/books/${data.book_id}`, data);
     return response.data;
   } catch (error: any) {
-    return { errors: error.response.data };
+    if (error.response) return { errors: error.response.data };
   }
 };

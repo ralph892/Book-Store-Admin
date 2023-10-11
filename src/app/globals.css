@@ -81,7 +81,7 @@ html{
 }
 
 .card-table{
-  @apply flex-col;
+  @apply flex-col overflow-auto;
 }
 
 .card-content{
@@ -146,6 +146,50 @@ html{
     font-size: 1.2rem;
     font-family: var(--font-primary-regular);
   }
+
+  .card-form_upload{
+    @apply w-full flex justify-center min-h-[100px];
+
+    .upload_dropzone{
+      @apply flex flex-col items-center justify-center p-[62px];
+      border: 1px solid var(--cl-primary);
+      border-style: dashed;
+      font-size: 1.6rem;
+      cursor: pointer;
+      user-select: none;
+
+      svg{
+        font-size: 2.8rem;
+      }
+    }
+
+    .upload_image_wrapper{
+      @apply relative w-[350px] h-[240px];
+
+      .upload_image{
+        @apply w-full h-full object-fill;
+      }
+    }
+
+    .upload_image_wrapper:hover .upload_overlay{
+      @apply flex;
+    }
+
+    .upload_overlay{
+      @apply absolute top-0 left-0 hidden w-full h-full items-center justify-center;
+      background-color: rgba(0, 0, 0, 0.281);
+      color: var(--bg-primary);
+
+      svg{
+        font-size: 5.8rem;
+      }
+
+      button:hover svg{
+        color: var(--cl-primary);
+      }
+    }
+
+  }
 }
 
 .btn-primary{
@@ -162,10 +206,6 @@ html{
 .btn-sz-medium{
   @apply py-[6px] px-[12px];
   font-size: 1.4rem; 
-}
-
-th.gridjs-th .gridjs-th-content{
-  overflow: visible !important;
 }
 
 button.gridjs-sort{

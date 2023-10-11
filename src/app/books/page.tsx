@@ -9,17 +9,26 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "sonner";
 import moment from "moment";
-import { handleCreateBook, handleGetAllCategories } from "@/api/handleApi";
+import {
+  handleCreateBook,
+  handleGetAllCategories,
+  handleUploadFile,
+} from "@/api/handleApi";
+import { RiIndeterminateCircleLine, RiUploadCloud2Line } from "react-icons/ri";
+import Image from "next/image";
 
 type Props = {};
 
 const page = (props: Props) => {
   const wrapperRef = React.useRef<HTMLDivElement>(null);
+  const uploadImageRef = React.useRef<HTMLInputElement>(null);
   const [isMounted, setIsMounted] = React.useState(false);
+  const [imageFile, setImageFile] = React.useState<File>();
+  const [image, setImage] = React.useState<string>();
   const [categories, setCategories] = React.useState<
     {
-      id: string;
-      name: string;
+      category_id: string;
+      category_name: string;
     }[]
   >();
 
@@ -86,10 +95,27 @@ const page = (props: Props) => {
     grid.render(wrapperRef.current);
   });
 
+  const handleUploadImage = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (uploadImageRef.current) uploadImageRef.current.click();
+  };
+
+  const handleChangeImage = () => {
+    if (uploadImageRef.current && uploadImageRef.current.files !== null) {
+      const file = uploadImageRef.current.files[0];
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const SignupSchema = Yup.object().shape({
     title: Yup.string()
       .min(2, "To Short")
-      .max(10, "To Long")
+      .max(100, "To Long")
       .required("Required"),
     price: Yup.number()
       .required("Required")
@@ -120,11 +146,15 @@ const page = (props: Props) => {
       published_date: new Date(),
       quantity: "",
       description: "",
-      category: categories != undefined ? categories[0].id : "",
+      category: "",
+      image_book: undefined,
     },
     validationSchema: SignupSchema,
     validateOnChange: false,
     onSubmit: async (values) => {
+      const data = new FormData();
+      if (imageFile) data.append("imageFile", imageFile);
+      const uploadResponse = await handleUploadFile("books", data);
       const response = await handleCreateBook({
         book_id: `BK${Date.now()}`,
         title: values.title,
@@ -136,33 +166,37 @@ const page = (props: Props) => {
         description: values.description,
         category: values.category,
       });
-      if (response.errors) {
-        toast.error(response.errors.message, {
-          action: {
-            label: "Cancel",
-            onClick: () => {},
-          },
-          position: "top-right",
-          duration: 2000,
-        });
-      } else window.location.reload();
+      if (response !== undefined) {
+        if (response.errors) {
+          toast.error(response.errors.message, {
+            action: {
+              label: "Cancel",
+              onClick: () => {},
+            },
+            position: "top-right",
+            duration: 2000,
+          });
+        } else window.location.reload();
+      }
     },
   });
 
   React.useEffect(() => {
     const queryCategories = async () => {
       const response = await handleGetAllCategories();
-      if (response.errors) {
-        toast.error(response.errors.message, {
-          action: {
-            label: "Cancel",
-            onClick: () => {},
-          },
-          position: "top-right",
-          duration: 2000,
-        });
-      } else {
-        setCategories(response);
+      if (response !== undefined) {
+        if (response.errors) {
+          toast.error(response.errors.message, {
+            action: {
+              label: "Cancel",
+              onClick: () => {},
+            },
+            position: "top-right",
+            duration: 2000,
+          });
+        } else {
+          setCategories(response);
+        }
       }
     };
     queryCategories();
@@ -177,11 +211,59 @@ const page = (props: Props) => {
             className="btn-primary btn-sz-medium"
             onClick={() => setIsMounted(!isMounted)}
           >
-            {isMounted === true ? "Hide form" : "Add new category"}
+            {isMounted === true ? "Hide form" : "Add new book"}
           </button>
         </div>
         {isMounted && (
           <form className="card-form block" onSubmit={formik.handleSubmit}>
+            <div className="card-form_upload">
+              {image === undefined ? (
+                <div className="upload_dropzone">
+                  <RiUploadCloud2Line />
+                  <span className="upload_dropzone_title">
+                    Drag & Drop or click to Upload
+                  </span>
+                  <span className="upload_dropzone_subtitle">
+                    320x320 (Max: 120KB)
+                  </span>
+                  <input
+                    type="file"
+                    style={{ display: "none" }}
+                    accept="image/*"
+                    onChange={handleChangeImage}
+                    id="image_book"
+                    name="image_book"
+                    ref={uploadImageRef}
+                  ></input>
+                  <button
+                    className="btn-primary btn-sz-medium mt-[8px]"
+                    onClick={(e) => handleUploadImage(e)}
+                  >
+                    Upload cover image
+                  </button>
+                </div>
+              ) : (
+                <div className="upload_image_wrapper">
+                  <Image
+                    src={image || "./images/unknown.jpg"}
+                    alt="image book"
+                    width={100}
+                    height={100}
+                    className="upload_image"
+                  />
+                  <div className="upload_overlay">
+                    <button
+                      onClick={() => {
+                        setImage(undefined);
+                        setImageFile(undefined);
+                      }}
+                    >
+                      <RiIndeterminateCircleLine />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
             <div className="card-form_section col-mp w-full">
               <div className="card-form_label">Book's title</div>
               <input
@@ -279,8 +361,8 @@ const page = (props: Props) => {
                   {categories &&
                     categories.map((category, index) => {
                       return (
-                        <option key={index} value={category.id}>
-                          {category.name}
+                        <option key={index} value={category.category_id}>
+                          {category.category_name}
                         </option>
                       );
                     })}
