@@ -35,6 +35,15 @@ export const handleGetUserInformation = async (id: string) => {
   }
 };
 
+export const handleCountUsers = async () => {
+  try {
+    const response = await instance.get("/users/count");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const handleDeleteUser = async (id: string) => {
   try {
     const response = await instance.delete(`/users/${id}`);
@@ -80,6 +89,15 @@ export const handleGetBook = async (id: string) => {
   try {
     const response = await instance.get(`/books/${id}`);
     return response.data[0];
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const handleCountBooks = async () => {
+  try {
+    const response = await instance.get("/books/count");
+    return response.data;
   } catch (error) {
     console.log(error);
   }

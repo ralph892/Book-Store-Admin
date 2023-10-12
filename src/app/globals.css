@@ -12,7 +12,7 @@
   --bg-gray-bold: rgba(0, 0, 0, 0.07);
   --bg-primary: #f4f3ec;
   --bg-secondary: white;
-  --cl-primary: #e4573d;
+  --cl-primary: #e3563d;
   --cl-secondary: #333;
   --bg-danger: rgb(255, 43, 43);
   --txt-primary: white;
@@ -189,6 +189,43 @@ html{
       }
     }
 
+  }
+}
+
+.card-chart_wrapper{
+  @apply flex flex-col mb-[30px];
+  box-shadow: none;
+  border-radius: var(--border-radius-card);
+  transition: all ease-in-out 0.25s;
+  font-family: var(--font-primary-regular);
+
+  &:hover{
+    box-shadow: 1px 0px 28px -6px rgba(0, 0, 0, 0.41) inset;
+  }
+
+  &.medium{
+    @apply w-1/3 p-[25px];
+  }
+
+  &.large{
+    @apply w-full p-[25px] ;
+  }
+
+  .card-chart_title{
+    @apply text-center mb-[8px];
+    font-size: 2.4rem;
+  }
+
+  .card-chart_figure{
+    font-size: 2.4rem;
+  }
+
+  .card-chart{
+    @apply w-[50%] h-[128px] !important;
+
+    &.large{
+      @apply w-full h-[287px] !important;
+    }
   }
 }
 
