@@ -53,6 +53,12 @@ const page = (props: Props) => {
         "background-color": "var(--cl-primary)",
         color: "var(--txt-primary)",
       },
+      td: {
+        overflow: "hidden",
+        "text-overflow": "ellipsis",
+        "max-width": "300px",
+        "min-width": "100px",
+      },
     },
     columns: [
       "ID",
@@ -134,14 +140,14 @@ const page = (props: Props) => {
       .integer()
       .default(0),
     description: Yup.string().default(""),
-    category: Yup.string().required("Required"),
+    category: Yup.string().required("Required").default("unknown"),
   });
 
   const formik = useFormik({
     initialValues: {
       title: "",
       price: "",
-      rate: 1,
+      rate: 5,
       author: "",
       published_date: new Date(),
       quantity: "",
@@ -164,7 +170,12 @@ const page = (props: Props) => {
         published_date: new Date(values.published_date),
         quantity: Number(values.quantity),
         description: values.description,
-        category: values.category,
+        category:
+          categories && categories.length > 0
+            ? values.category === ""
+              ? categories[0].category_id
+              : values.category
+            : "",
       });
       if (response !== undefined) {
         if (response.errors) {
